@@ -57,6 +57,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/tvNoteBody"
                 android:maxHeight="170dp"
+                android:maxLines="3"
                 android:text="Type something"
                 android:layout_marginTop="16dp"
                 android:textSize="19sp"

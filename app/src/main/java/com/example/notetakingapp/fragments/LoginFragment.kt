@@ -69,17 +69,26 @@ class LoginFragment : Fragment() {
         return binding?.root
     }
 
-//    override fun onStart() {
-//        super.onStart()
-//        if (firebaseAuth.currentUser != null) {
-//            findNavController().safeNavigate(
-//                LoginFragmentDirections.actionLoginFragmentToHomeFragment()
-//            )
-//        }
-//
-//    }
+
+    //this is to check if there is a user logged in already to login automatically else after signup, user goes to login page
+    override fun onStart() {
+
+        super.onStart()
+        if (firebaseAuth.currentUser != null) {
+//            firebaseAuth.currentUser?.getIdToken(true)
+            findNavController().safeNavigate(
+                LoginFragmentDirections.actionLoginFragmentToHomeFragment()
+            )
+        }else {
+            findNavController().safeNavigate(
+                SignUpFragmentDirections.actionSignUpFragmentToLoginFragment()
+            )
+        }
+
+    }
+
 }
 
 
-//this is to check if there is a user logged in already
+
 

@@ -23,11 +23,13 @@ class HomeFragment : Fragment(R.layout.fragment_home), SearchView.OnQueryTextLis
 
     private lateinit var notesViewModel: NoteViewModel
     private lateinit var noteAdapter: NoteAdapter
+    private lateinit var firebaseAuth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setHasOptionsMenu(true)
+        firebaseAuth = FirebaseAuth.getInstance()
 //        val user = FirebaseAuth.getInstance().currentUser?.uid
 //        val userId = user!!
         return
@@ -96,6 +98,18 @@ class HomeFragment : Fragment(R.layout.fragment_home), SearchView.OnQueryTextLis
         val mMenuSearch = menu.findItem(R.id.menu_search).actionView as SearchView
         mMenuSearch.isSubmitButtonEnabled = false
         mMenuSearch.setOnQueryTextListener(this)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId){
+            R.id.logout -> {
+                FirebaseAuth.getInstance().signOut()
+                findNavController().safeNavigate(
+                    HomeFragmentDirections.actionHomeFragmentToLoginFragment()
+                )
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     override fun onQueryTextSubmit(query: String?): Boolean {
