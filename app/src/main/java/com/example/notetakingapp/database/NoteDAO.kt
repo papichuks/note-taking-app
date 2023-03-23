@@ -18,8 +18,8 @@ interface NoteDAO {
     @Delete
     suspend fun deleteNote(note: Note)
 
-//    @Query("SELECT * FROM notes WHERE userId = :userId")
-//    fun getAllNotesByUserId(userId: String): LiveData<List<Note>>
+    @Query("SELECT * FROM notes WHERE uId = :uId")
+    fun getAllNotesByUserId(uId: String): LiveData<List<Note>>
 
     @Query("SELECT * FROM notes ORDER BY id DESC")
     fun getAllNotes(): LiveData<List<Note>>

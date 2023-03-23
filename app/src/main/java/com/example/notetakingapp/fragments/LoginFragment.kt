@@ -12,8 +12,10 @@ import androidx.navigation.fragment.findNavController
 import com.example.notetakingapp.HomeFragment
 import com.example.notetakingapp.R
 import com.example.notetakingapp.database.NoteDAO
+import com.example.notetakingapp.database.NoteDatabase
 import com.example.notetakingapp.databinding.FragmentLoginBinding
 import com.example.notetakingapp.util.safeNavigate
+import com.example.notetakingapp.viewmodel.NoteViewModel
 import com.google.firebase.auth.FirebaseAuth
 
 class LoginFragment : Fragment() {
@@ -21,6 +23,7 @@ class LoginFragment : Fragment() {
     private var _binding: FragmentLoginBinding? = null
     private val binding get() = _binding
 
+    private lateinit var notesViewModel: NoteViewModel
     private lateinit var firebaseAuth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,9 +57,15 @@ class LoginFragment : Fragment() {
             if (email.isNotEmpty() && password.isNotEmpty()){
                 firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener {
                     if (it.isSuccessful){
-                        findNavController().safeNavigate(
-                            LoginFragmentDirections.actionLoginFragmentToHomeFragment()
-                        )
+                        if (firebaseAuth.currentUser?.uid != null){
+                            notesViewModel.getAllNotesByUserId(firebaseAuth.currentUser!!.uid)
+                            findNavController().safeNavigate(
+                                LoginFragmentDirections.actionLoginFragmentToHomeFragment()
+                            )
+                        }
+//                        findNavController().safeNavigate(
+//                            LoginFragmentDirections.actionLoginFragmentToHomeFragment()
+//                        )
                     }else {
                         Toast.makeText(requireActivity(), it.exception.toString(), Toast.LENGTH_SHORT).show()
                     }

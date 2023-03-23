@@ -12,6 +12,6 @@ data class Note(
     val id: Int,
     val noteTitle: String,
     val noteBody: String,
-//    val userId: String
+    val uId: String? = null
 //    val noteImage: String?
 ) : Parcelable

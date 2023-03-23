@@ -1,12 +1,16 @@
 package com.example.notetakingapp.database
 
 import android.content.Context
+import androidx.room.AutoMigration
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.notetakingapp.model.Note
 
-@Database(entities = [Note::class], version = 1)
+@Database(entities = [Note::class], version = 2, exportSchema = true,
+    autoMigrations = [AutoMigration(1,2)]
+)
+
 abstract class NoteDatabase: RoomDatabase() {
 
     abstract fun getNoteDao(): NoteDAO
@@ -28,7 +32,9 @@ abstract class NoteDatabase: RoomDatabase() {
             context.applicationContext,
             NoteDatabase::class.java,
             name = "note_db"
-        ).build()
+        )
+            .fallbackToDestructiveMigration()
+            .build()
     }
 }
 
