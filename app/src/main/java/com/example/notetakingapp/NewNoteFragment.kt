@@ -1,5 +1,7 @@
 package com.example.notetakingapp
 
+import android.icu.text.DateFormat
+import android.icu.text.SimpleDateFormat
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
@@ -12,6 +14,7 @@ import com.example.notetakingapp.databinding.FragmentNewNoteBinding
 import com.example.notetakingapp.viewmodel.NoteViewModel
 import com.example.notetakingapp.model.Note
 import com.google.firebase.auth.FirebaseAuth
+import java.util.*
 import java.util.zip.Inflater
 
 
@@ -22,6 +25,8 @@ class NewNoteFragment : Fragment() {
 
     private lateinit var notesViewModel: NoteViewModel
     private lateinit var noteAdapter: NoteAdapter
+
+
 
 //    private val user = FirebaseAuth.getInstance().currentUser?.uid
 //    private val userId = user!!
@@ -53,8 +58,12 @@ class NewNoteFragment : Fragment() {
         val noteTitle = binding?.etNoteTitle?.text.toString().trim()
         val noteBody = binding?.etNoteBody?.text.toString().trim()
 
-        if (noteTitle.isNotEmpty()){
-            val note = Note(0, noteTitle, noteBody) //userId should be added with initialization on top
+        if (noteTitle.isNotEmpty() || noteBody.isNotEmpty()){
+            val d = Date()
+            val date: CharSequence = android.text.format.DateFormat
+                .format("MMM d, yyyy", d.time)
+            val note = Note(0, noteTitle, noteBody, timeStamp = date.toString())
+            //userId should be added with initialization on top
 
             notesViewModel.addNote(note)
 

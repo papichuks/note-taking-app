@@ -10,6 +10,7 @@ import androidx.fragment.app.FragmentTransaction
 import androidx.navigation.Navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.example.notetakingapp.HomeFragment
+import com.example.notetakingapp.MainActivity
 import com.example.notetakingapp.R
 import com.example.notetakingapp.database.NoteDAO
 import com.example.notetakingapp.database.NoteDatabase
@@ -29,6 +30,7 @@ class LoginFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         firebaseAuth = FirebaseAuth.getInstance()
+//        notesViewModel = (activity as MainActivity).noteViewModel
     }
 
     override fun onDestroyView() {
@@ -43,6 +45,8 @@ class LoginFragment : Fragment() {
 
 
         _binding = FragmentLoginBinding.inflate(inflater, container, false)
+
+        notesViewModel = (activity as MainActivity).noteViewModel
 
         binding?.tvSignUp?.setOnClickListener {
             findNavController().safeNavigate(

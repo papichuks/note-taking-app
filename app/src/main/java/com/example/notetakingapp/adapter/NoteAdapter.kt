@@ -12,6 +12,7 @@ import com.example.notetakingapp.HomeFragment
 import com.example.notetakingapp.HomeFragmentDirections
 import com.example.notetakingapp.databinding.NoteLayoutBinding
 import com.example.notetakingapp.model.Note
+import java.text.SimpleDateFormat
 import java.util.*
 
 
@@ -25,7 +26,8 @@ class NoteAdapter: RecyclerView.Adapter<NoteAdapter.NoteViewHolder>() {
         override fun areItemsTheSame(oldItem: Note, newItem: Note): Boolean {
             return oldItem.id == newItem.id &&
                     oldItem.noteBody == newItem.noteBody &&
-                    oldItem.noteTitle == newItem.noteTitle
+                    oldItem.noteTitle == newItem.noteTitle &&
+                    oldItem.timeStamp == newItem.timeStamp
         }
 
         override fun areContentsTheSame(oldItem: Note, newItem: Note): Boolean {
@@ -59,10 +61,17 @@ class NoteAdapter: RecyclerView.Adapter<NoteAdapter.NoteViewHolder>() {
 
 
 
+        val d = Date()
+        val date: CharSequence = android.text.format.DateFormat
+            .format("MMM d, yyyy", d.time)
+        holder.itemBinding.tvTimeStamp.text = date
+
+
         holder.itemBinding.ibColor.setBackgroundColor(color)
 
         holder.itemView.setOnClickListener{
-            val direction = HomeFragmentDirections.actionHomeFragmentToUpdateNoteFragment(currentNote)
+            val direction = HomeFragmentDirections
+                .actionHomeFragmentToUpdateNoteFragment(currentNote)
 
             it.findNavController().navigate(direction)
         }
