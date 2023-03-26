@@ -15,4 +15,33 @@
         android:title="Logout"
         app:showAsAction="collapseActionView"/>
 
+
+    <item
+        android:id="@+id/filter"
+        android:icon="@drawable/ic_filter"
+        app:showAsAction="always"
+        android:title="Filter">
+
+        <menu>
+
+            <item
+                android:id="@+id/allNotes"
+                android:title="All notes"/>
+
+            <item
+                android:id="@+id/personal"
+                android:title="Personal"/>
+
+            <item
+                android:id="@+id/work"
+                android:title="Work"/>
+
+            <item
+                android:id="@+id/school"
+                android:title="School"/>
+
+        </menu>
+
+    </item>
+
 </menu>

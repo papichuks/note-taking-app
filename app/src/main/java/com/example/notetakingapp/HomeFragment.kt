@@ -57,17 +57,83 @@ class HomeFragment : Fragment(R.layout.fragment_home), SearchView.OnQueryTextLis
         }
     }
 
+
+    //Recycler view for all notes
     private fun setUpRecyclerView() {
         noteAdapter = NoteAdapter()
 
         binding?.recyclerView.apply {
-            this?.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+            this?.layoutManager =
+                LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             this?.setHasFixedSize(true)
             this?.adapter = noteAdapter
         }
 
         activity?.let {
             notesViewModel.getAllNotes().observe(
+                viewLifecycleOwner
+            ) { note ->
+                noteAdapter.differ.submitList(note)
+                updateUI(note)
+            }
+        }
+    }
+
+    //Recycler view for Personal notes
+    private fun personalNotesRecyclerView() {
+        noteAdapter = NoteAdapter()
+
+        binding?.recyclerView.apply {
+            this?.layoutManager =
+                LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+            this?.setHasFixedSize(true)
+            this?.adapter = noteAdapter
+        }
+
+        activity?.let {
+            notesViewModel.getPersonalNotes().observe(
+                viewLifecycleOwner
+            ) { note ->
+                noteAdapter.differ.submitList(note)
+                updateUI(note)
+            }
+        }
+    }
+
+    //Recycler view for school notes
+    private fun schoolNotesRecyclerView() {
+        noteAdapter = NoteAdapter()
+
+        binding?.recyclerView.apply {
+            this?.layoutManager =
+                LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+            this?.setHasFixedSize(true)
+            this?.adapter = noteAdapter
+        }
+
+        activity?.let {
+            notesViewModel.getSchoolNotes().observe(
+                viewLifecycleOwner
+            ) { note ->
+                noteAdapter.differ.submitList(note)
+                updateUI(note)
+            }
+        }
+    }
+
+    //Recycler view for work notes
+    private fun workNotesRecyclerView() {
+        noteAdapter = NoteAdapter()
+
+        binding?.recyclerView.apply {
+            this?.layoutManager =
+                LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+            this?.setHasFixedSize(true)
+            this?.adapter = noteAdapter
+        }
+
+        activity?.let {
+            notesViewModel.getWorkNotes().observe(
                 viewLifecycleOwner
             ) { note ->
                 noteAdapter.differ.submitList(note)
@@ -107,6 +173,18 @@ class HomeFragment : Fragment(R.layout.fragment_home), SearchView.OnQueryTextLis
                 findNavController().safeNavigate(
                     HomeFragmentDirections.actionHomeFragmentToLoginFragment()
                 )
+            }
+            R.id.personal -> {
+                personalNotesRecyclerView()
+            }
+            R.id.school -> {
+                schoolNotesRecyclerView()
+            }
+            R.id.work -> {
+                workNotesRecyclerView()
+            }
+            R.id.allNotes -> {
+                setUpRecyclerView()
             }
         }
         return super.onOptionsItemSelected(item)

@@ -22,6 +22,12 @@ class NoteViewModel(app: Application, private val noteRepository: NoteRepository
 
     fun getAllNotes() = noteRepository.getAllNotes()
 
+    fun getPersonalNotes() = noteRepository.getPersonalNotes()
+
+    fun getSchoolNotes() = noteRepository.getSchoolNotes()
+
+    fun getWorkNotes() = noteRepository.getWorkNotes()
+
     fun searchNote(query: String?) = noteRepository.searchNote(query)
 
     fun getAllNotesByUserId(uId: String) = noteRepository.getAllNotesByUserId(uId)
