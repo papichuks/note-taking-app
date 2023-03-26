@@ -15,6 +15,7 @@ data class Note(
     val noteTitle: String,
     val noteBody: String,
     val uId: String? = null,
-    @ColumnInfo(name = "timeStamp", defaultValue = "MMM d, yyyy")val timeStamp: String
+    @ColumnInfo(name = "timeStamp", defaultValue = "MMM d, yyyy")val timeStamp: String,
+    val label: String? = null
 //    val noteImage: String?
 ) : Parcelable

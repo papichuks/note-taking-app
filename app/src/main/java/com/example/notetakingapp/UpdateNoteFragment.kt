@@ -1,6 +1,7 @@
 package com.example.notetakingapp
 
 import android.app.AlertDialog
+import android.graphics.Color
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
@@ -26,6 +27,8 @@ class UpdateNoteFragment : Fragment(R.layout.fragment_update_note) {
 
     private lateinit var currentNote: Note
 
+    var label: String = "1"
+
     private val args: UpdateNoteFragmentArgs by navArgs()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,7 +47,6 @@ class UpdateNoteFragment : Fragment(R.layout.fragment_update_note) {
             container,
             false
         )
-
         return binding.root
     }
 
@@ -56,18 +58,61 @@ class UpdateNoteFragment : Fragment(R.layout.fragment_update_note) {
         binding.etNoteTitleUpdate.setText(currentNote.noteTitle)
         binding.etNoteBodyUpdate.setText(currentNote.noteBody)
 
+        binding.tvPersonal.setOnClickListener {
+            label = "1"
+            binding.tvPersonal.setBackgroundColor(Color.BLUE)
+            binding.tvSchool.setBackgroundColor(Color.WHITE)
+            binding.tvWork.setBackgroundColor(Color.WHITE)
+        }
+        binding.tvSchool.setOnClickListener {
+            label = "2"
+            binding.tvSchool.setBackgroundColor(Color.RED)
+            binding.tvPersonal.setBackgroundColor(Color.WHITE)
+            binding.tvWork.setBackgroundColor(Color.WHITE)
+        }
+        binding.tvWork.setOnClickListener {
+            label = "3"
+            binding.tvWork.setBackgroundColor(Color.YELLOW)
+            binding.tvPersonal.setBackgroundColor(Color.WHITE)
+            binding.tvSchool.setBackgroundColor(Color.WHITE)
+        }
+
+        when(currentNote.label){
+            "1" -> {
+                label = "1"
+                binding.tvPersonal.setBackgroundColor(Color.BLUE)
+                binding.tvSchool.setBackgroundColor(Color.WHITE)
+                binding.tvWork.setBackgroundColor(Color.WHITE)
+            }
+            "2" -> {
+                label = "2"
+                binding.tvSchool.setBackgroundColor(Color.RED)
+                binding.tvPersonal.setBackgroundColor(Color.WHITE)
+                binding.tvWork.setBackgroundColor(Color.WHITE)
+            }
+            "3" -> {
+                label = "3"
+                binding.tvWork.setBackgroundColor(Color.YELLOW)
+                binding.tvPersonal.setBackgroundColor(Color.WHITE)
+                binding.tvSchool.setBackgroundColor(Color.WHITE)
+            }
+        }
+
+
+
         binding.fabDone.setOnClickListener {
             val title = binding.etNoteTitleUpdate.text.toString().trim()
             val body = binding.etNoteBodyUpdate.text.toString().trim()
-//            val currentTime = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
-//                .format(Date())
 
             val d = Date()
             val date: CharSequence = android.text.format.DateFormat
                 .format("MMM d, yyyy", d.time)
 
+
             if (title.isNotEmpty()){
-                val note = Note(currentNote.id, title, body, timeStamp = date.toString())
+                val note =
+                    Note(currentNote.id, title, body, timeStamp = date.toString(), label = label)
+                println(label)
                 notesViewModel.updateNote(note)
                 view.findNavController().navigate(R.id.action_updateNoteFragment_to_homeFragment)
             }

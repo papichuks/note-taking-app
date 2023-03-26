@@ -27,7 +27,8 @@ class NoteAdapter: RecyclerView.Adapter<NoteAdapter.NoteViewHolder>() {
             return oldItem.id == newItem.id &&
                     oldItem.noteBody == newItem.noteBody &&
                     oldItem.noteTitle == newItem.noteTitle &&
-                    oldItem.timeStamp == newItem.timeStamp
+                    oldItem.timeStamp == newItem.timeStamp &&
+                    oldItem.label == newItem.label
         }
 
         override fun areContentsTheSame(oldItem: Note, newItem: Note): Boolean {
@@ -59,7 +60,11 @@ class NoteAdapter: RecyclerView.Adapter<NoteAdapter.NoteViewHolder>() {
             random.nextInt(256),
         )
 
-
+        when(currentNote.label){
+            "1" -> holder.itemBinding.tvNoteLabel.text = "personal"
+            "2" -> holder.itemBinding.tvNoteLabel.text = "school"
+            "3" -> holder.itemBinding.tvNoteLabel.text = "work"
+        }
 
         val d = Date()
         val date: CharSequence = android.text.format.DateFormat

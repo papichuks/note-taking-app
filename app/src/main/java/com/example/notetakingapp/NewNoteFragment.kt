@@ -1,5 +1,6 @@
 package com.example.notetakingapp
 
+import android.graphics.Color
 import android.icu.text.DateFormat
 import android.icu.text.SimpleDateFormat
 import android.os.Bundle
@@ -25,6 +26,7 @@ class NewNoteFragment : Fragment() {
 
     private lateinit var notesViewModel: NoteViewModel
     private lateinit var noteAdapter: NoteAdapter
+    var label: String = "1"
 
 
 
@@ -45,6 +47,26 @@ class NewNoteFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         _binding= FragmentNewNoteBinding.inflate(inflater, container, false)
+
+        binding?.tvPersonal?.setOnClickListener {
+            label = "1"
+            binding?.tvPersonal?.setBackgroundColor(Color.BLUE)
+            binding?.tvSchool?.setBackgroundColor(Color.WHITE)
+            binding?.tvWork?.setBackgroundColor(Color.WHITE)
+        }
+        binding?.tvSchool?.setOnClickListener {
+            label = "2"
+            binding?.tvSchool?.setBackgroundColor(Color.RED)
+            binding?.tvPersonal?.setBackgroundColor(Color.WHITE)
+            binding?.tvWork?.setBackgroundColor(Color.WHITE)
+        }
+        binding?.tvWork?.setOnClickListener {
+            label = "3"
+            binding?.tvWork?.setBackgroundColor(Color.YELLOW)
+            binding?.tvPersonal?.setBackgroundColor(Color.WHITE)
+            binding?.tvSchool?.setBackgroundColor(Color.WHITE)
+        }
+
         return binding?.root
     }
 
@@ -62,7 +84,7 @@ class NewNoteFragment : Fragment() {
             val d = Date()
             val date: CharSequence = android.text.format.DateFormat
                 .format("MMM d, yyyy", d.time)
-            val note = Note(0, noteTitle, noteBody, timeStamp = date.toString())
+            val note = Note(0, noteTitle, noteBody, timeStamp = date.toString(), label = label)
             //userId should be added with initialization on top
 
             notesViewModel.addNote(note)

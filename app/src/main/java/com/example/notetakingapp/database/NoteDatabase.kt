@@ -7,9 +7,9 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.notetakingapp.model.Note
 
-@Database(entities = [Note::class], version = 4, exportSchema = true,
+@Database(entities = [Note::class], version = 5, exportSchema = true,
     autoMigrations = [
-        AutoMigration(1,4),
+        AutoMigration(1,5),
         ]
 )
 
